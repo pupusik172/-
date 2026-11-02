@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#e7ddd0" />
+    <title>Домашка — твой учебный план</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="/styles.css?v=17" />
+  </head>
+  <body data-theme="orange">
+    <main class="app-shell" id="top">
+      <header class="topbar">
+        <button class="theme-button" id="themeButton" type="button" aria-label="Открыть варианты оформления" aria-expanded="false" aria-controls="themePanel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h11M4 18h7"/></svg></button>
+        <span class="brand">домашка<span class="brand-dot">.</span></span>
+        <div class="avatar" id="avatar" aria-label="Инициалы пользователя">Д</div>
+      </header>
+      <section class="theme-panel hidden" id="themePanel" aria-label="Варианты оформления">
+        <div class="theme-panel-head"><span>Твоё настроение</span><span class="theme-count">4 оформления</span></div>
+        <div class="theme-options">
+          <button type="button" class="theme-option active" data-theme-choice="orange"><span class="theme-swatch swatch-orange"></span><span><strong>Песочный</strong><small>Тепло и спокойствие</small></span></button>
+          <button type="button" class="theme-option" data-theme-choice="luxe"><span class="theme-swatch swatch-luxe"></span><span><strong>Графитовый</strong><small>Тёмный с золотом</small></span></button>
+          <button type="button" class="theme-option" data-theme-choice="lavender"><span class="theme-swatch swatch-lavender"></span><span><strong>Лавандовый</strong><small>Мягкий и уютный</small></span></button>
+          <button type="button" class="theme-option" data-theme-choice="mint"><span class="theme-swatch swatch-mint"></span><span><strong>Шалфейный</strong><small>Свежесть и тишина</small></span></button>
+        </div>
+      </section>
+      <section class="welcome-card" aria-labelledby="pageTitle">
+        <div><p class="eyebrow" id="todayLabel"></p><h1 id="pageTitle">Всё по плану.</h1><p class="welcome-copy" id="greeting">Держим учёбу под контролем</p></div>
+        <span class="welcome-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z"/></svg></span>
+      </section>
+      <div class="overview-grid">
+        <section class="workload-card" aria-labelledby="workloadTitle">
+          <div class="workload-head"><div><p class="eyebrow">НЕ СПЕША, ШАГ ЗА ШАГОМ</p><h2 id="workloadTitle">Нагрузка на неделю</h2></div><span class="workload-summary" id="workloadSummary">0 заданий</span></div>
+          <div class="workload-bars" id="workloadBars" role="list" aria-label="Сроки заданий на ближайшие семь дней"></div>
+        </section>
+        <section class="progress-card" aria-label="Прогресс выполнения">
+          <div class="progress-head"><span class="eyebrow">ТВОЙ ПРОГРЕСС</span><span class="progress-mark" aria-hidden="true">↗</span></div>
+          <strong id="progressText">0% готово</strong>
+          <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+          <div class="stats-grid" aria-label="Статистика">
+            <article class="stat-card"><strong id="statTotal">0</strong><span>всего</span></article>
+            <article class="stat-card"><strong id="statDone">0</strong><span>готово</span></article>
+            <article class="stat-card"><strong id="statOverdue">0</strong><span>просрочено</span></article>
+          </div>
+        </section>
+      </div>
+      <section class="subjects-section hidden" id="subjectsSection" aria-labelledby="subjectsTitle">
+        <div class="section-head"><div><p class="eyebrow">КАЖДОМУ ДЕЛУ СВОЁ МЕСТО</p><h2 id="subjectsTitle">Твои предметы</h2></div><span class="section-caption" id="subjectTotal"></span></div>
+        <div class="subject-tiles" id="subjectTiles"></div>
+      </section>
+      <section class="tasks-section" id="tasksSection" aria-labelledby="tasksTitle">
+        <div class="section-head"><div><p class="eyebrow">ОТ ПЛАНА К ГОТОВОМУ</p><h2 id="tasksTitle">Мои задания</h2></div><button class="primary-btn" id="addBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Добавить</span></button></div>
+        <div class="filters" role="group" aria-label="Статус заданий"><button class="filter" data-filter="all" type="button">Все <b id="countAll">0</b></button><button class="filter active" data-filter="todo" type="button">К выполнению <b id="countTodo">0</b></button><button class="filter" data-filter="progress" type="button">В процессе <b id="countProgress">0</b></button><button class="filter" data-filter="done" type="button">Готово <b id="countDone">0</b></button></div>
+        <div id="taskList" class="task-list"></div>
+        <div id="emptyState" class="empty-state hidden"><span class="empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 6 1.5 1.5L8 5M11 6h9M4 12h4M11 12h9M4 18h4M11 18h9"/></svg></span><h3>Здесь пока спокойно</h3><p>Добавь задание, выбери предмет и прикрепи фото — всё будет под рукой.</p><button class="secondary-btn" id="emptyAddBtn" type="button">Добавить задание</button></div>
+      </section>
+      <footer class="app-footer"><span>По одному делу за раз.</span><span class="footer-dot" aria-hidden="true"></span><span>Всё получится</span></footer>
+    </main>
+    <nav class="bottom-nav" aria-label="Быстрый переход">
+      <a href="#top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></svg><span>Главная</span></a>
+      <a href="#subjectsSection"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Предметы</span></a>
+      <button type="button" id="quickAddBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Добавить</span></button>
+      <a href="#tasksSection"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 6 1.5 1.5L8 5M11 6h9M4 12h4M11 12h9M4 18h4M11 18h9"/></svg><span>Задания</span></a>
+    </nav>
+    <div class="modal-backdrop hidden" id="modalBackdrop"><form class="modal" id="taskForm"><button type="button" class="close-btn" id="closeBtn">×</button><p class="eyebrow">НОВОЕ ЗАДАНИЕ</p><h2 id="modalTitle">Добавить задание</h2><label>Что нужно сделать<input name="title" required maxlength="120" placeholder="Например, прочитать главу 4" /></label><div class="form-row"><label>Предмет<input id="subjectInput" name="subject" list="subjects" maxlength="40" placeholder="Введите или выберите предмет" autocomplete="off" /><select id="subjectPreset" class="subject-preset" aria-label="Выбрать предмет"><option value="">Выбрать из списка</option><option value="ОРГ">ОРГ</option><option value="ОБЖ">ОБЖ</option><option value="Информатика">Информатика</option><option value="Инженерка">Инженерка</option><option value="Математика">Математика</option><option value="Философия">Философия</option><option value="Английский">Английский</option><option value="История">История</option><option value="Правовая">Правовая</option></select><datalist id="subjects"><option value="ОРГ"></option><option value="ОБЖ"></option><option value="Информатика"></option><option value="Инженерка"></option><option value="Математика"></option><option value="Философия"></option><option value="Английский"></option><option value="История"></option><option value="Правовая"></option></datalist></label><label>Срок<input name="dueDate" type="date" /></label></div><label>Приоритет<select name="priority"><option value="low">Можно позже</option><option value="medium" selected>Обычный</option><option value="high">Важно</option></select></label><div class="photo-upload"><span class="photo-label">Фото задания</span><label class="photo-input-wrap" id="photoPickerButton" for="photoInput"><span aria-hidden="true">＋ Добавить фото</span><input id="photoInput" type="file" accept="image/*" multiple aria-label="Добавить фото из галереи" aria-describedby="photoHelp" /></label><small id="photoHelp" role="status">Можно выбрать до 20 фото из галереи</small><div id="photoPreview" class="photo-preview hidden" aria-label="Предпросмотр прикреплённых фото"></div></div><button class="primary-btn full" type="submit">Сохранить задание</button></form></div>
+    <div class="photo-lightbox hidden" id="photoLightbox" role="dialog" aria-modal="true" aria-label="Просмотр фото"><div class="photo-viewer-top"><span id="photoViewerCount" aria-live="polite">1 / 1</span><button class="photo-lightbox-close" id="photoLightboxClose" type="button" aria-label="Закрыть просмотр">×</button></div><button class="photo-nav photo-prev" id="photoPrev" type="button" aria-label="Предыдущее фото">‹</button><img id="photoLightboxImage" alt="Фото задания в полном размере" draggable="false" /><button class="photo-nav photo-next" id="photoNext" type="button" aria-label="Следующее фото">›</button><div class="photo-zoom-controls" aria-label="Масштаб фото"><button id="photoZoomOut" type="button" aria-label="Уменьшить фото">−</button><button id="photoZoomReset" type="button" aria-label="Сбросить масштаб">1.0×</button><button id="photoZoomIn" type="button" aria-label="Увеличить фото">＋</button></div></div>
+    <script src="/app.js?v=44"></script>
+  </body>
+</html>

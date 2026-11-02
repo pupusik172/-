@@ -1,0 +1,14 @@
+{
+  "name": "domashka-mini-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Telegram Mini App для учёта домашних заданий",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
